@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Resume Upload</title>
+</head>
+<body>
+    <h1>Upload Your Resume</h1>
+    
+    <form id="resumeUploadForm" action="/upload" method="post" enctype="multipart/form-data">
+        <input type="file" name="resumeFile" id="resumeFile" accept=".pdf, .doc, .docx">
+        <input type="submit" value="Upload">
+    </form>
+
+    <div id="uploadMessage"></div>
+
+    <script>
+        document.getElementById("resumeUploadForm").addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            // Create a FormData object to send the file
+            var formData = new FormData(this);
+
+            // Make an AJAX request to handle the file upload
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/upload", true);
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        document.getElementById("uploadMessage").innerHTML = "Upload successful!";
+                    } else {
+                        document.getElementById("uploadMessage").innerHTML = "Upload failed. Please try again.";
+                    }
+                }
+            };
+
+            xhr.send(formData);
+        });
+    </script>
+</body>
+</html>
